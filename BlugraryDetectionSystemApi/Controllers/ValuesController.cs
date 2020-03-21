@@ -2,44 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlugraryDetectionSystemApi.Services.Contracts;
+using BlugraryDetectionSystemEntities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlugraryDetectionSystemApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+
+        private IUserAuthenticationService userAuthenticationService;
+
+        public ValuesController(IUserAuthenticationService _userAuthenticationService)
         {
-            return new string[] { "value1", "value2" };
+            userAuthenticationService = _userAuthenticationService;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate()
         {
-            return "value";
+            User userParam = new User();
+            var user = userAuthenticationService.Authenticate(userParam.userName, userParam.password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(user);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [Authorize]
+        [HttpPost("test")]
+        public IActionResult TestAuthentication()
         {
+            return Ok("Hello");
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
