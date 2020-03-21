@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs/BlugraryDetectionSystem/v16
+/.vs
+/BlugraryDetectionSystemApi/obj
+/BlugraryDetectionSystemApi/bin/Debug/netcoreapp2.1
