@@ -6,3 +6,4 @@
 /.vs
 /BlugraryDetectionSystemApi/obj
 /BlugraryDetectionSystemApi/bin/Debug/netcoreapp2.1
+/BlugraryDetectionSystemEntities/obj/project.nuget.cache
