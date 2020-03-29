@@ -42,6 +42,7 @@ namespace BlugraryDetectionSystemApi
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             var appSettings = appSettingsSection.Get<AppSettings>();
+            services.Configure<AppSettings>(Configuration);
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(appSettings.appKeys.authenticationPrivateKey);

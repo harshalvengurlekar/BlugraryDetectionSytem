@@ -1,9 +1,0 @@
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\bin\Debug\netstandard2.0\BlugraryDetectionSystemEntities.deps.json
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\bin\Debug\netstandard2.0\BlugraryDetectionSystemEntities.dll
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\bin\Debug\netstandard2.0\BlugraryDetectionSystemEntities.pdb
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\obj\Debug\netstandard2.0\BlugraryDetectionSystemEntities.csprojAssemblyReference.cache
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\obj\Debug\netstandard2.0\BlugraryDetectionSystemEntities.AssemblyInfoInputs.cache
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\obj\Debug\netstandard2.0\BlugraryDetectionSystemEntities.AssemblyInfo.cs
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\obj\Debug\netstandard2.0\BlugraryDetectionSystemEntities.dll
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\obj\Debug\netstandard2.0\BlugraryDetectionSystemEntities.pdb
-D:\C# Projects\BlugraryDetectionSystem\BlugraryDetectionSystem\BlugraryDetectionSystemEntities\obj\Debug\netstandard2.0\BlugraryDetectionSystemEntities.csproj.CoreCompileInputs.cache
