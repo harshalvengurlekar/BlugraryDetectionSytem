@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemApi.Services.Contracts;
 using BlugraryDetectionSystemApi.Services.Implementations;
@@ -12,8 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -50,7 +44,7 @@ namespace BlugraryDetectionSystemApi
             var appSettings = appSettingsSection.Get<AppSettings>();
 
             // configure jwt authentication
-            var key = Encoding.ASCII.GetBytes(appSettings.appKeys.privateKey);
+            var key = Encoding.ASCII.GetBytes(appSettings.appKeys.authenticationPrivateKey);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -12,12 +12,12 @@ namespace BlugraryDetectionSystemApi.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
 
         private IUserAuthenticationService userAuthenticationService;
 
-        public ValuesController(IUserAuthenticationService _userAuthenticationService)
+        public AuthenticationController(IUserAuthenticationService _userAuthenticationService)
         {
             userAuthenticationService = _userAuthenticationService;
         }
@@ -35,12 +35,7 @@ namespace BlugraryDetectionSystemApi.Controllers
             return Ok(user);
         }
 
-        [Authorize]
-        [HttpPost("test")]
-        public IActionResult TestAuthentication()
-        {
-            return Ok("Hello");
-        }
+       
 
     }
 }

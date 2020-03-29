@@ -4,12 +4,10 @@ using BlugraryDetectionSystemEntities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BlugraryDetectionSystemApi.Services.Implementations
 {
@@ -34,7 +32,7 @@ namespace BlugraryDetectionSystemApi.Services.Implementations
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(appSettings.appKeys.privateKey);
+            var key = Encoding.ASCII.GetBytes(appSettings.appKeys.authenticationPrivateKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace BlugraryDetectionSystemApi.MiscClasses
 {
@@ -17,6 +15,9 @@ namespace BlugraryDetectionSystemApi.MiscClasses
     public class AppKeys
     {
         [JsonProperty("privateKey")]
-        public string privateKey { get; set; }
+        public string  authenticationPrivateKey { get; set; }
+
+        [JsonProperty("dbConnectionString")]
+        public string dbConnectionString { get; set; }
     }
 }
