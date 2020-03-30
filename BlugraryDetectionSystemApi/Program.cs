@@ -19,6 +19,14 @@ namespace BlugraryDetectionSystemApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+             .ConfigureAppConfiguration((builderContext, config) =>
+             {
+                 IHostingEnvironment env = builderContext.HostingEnvironment;
+                 config.SetBasePath(Directory.GetCurrentDirectory());
+                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                 config.AddJsonFile($"appsettings.Development.json", optional: false, reloadOnChange: true);
+                 config.AddEnvironmentVariables();
+             })
                 .UseStartup<Startup>();
     }
 }

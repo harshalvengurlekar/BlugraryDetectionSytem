@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BlugraryDetectionSystemDAL\BlugraryDetectionSystemDAL.csproj" />
     <ProjectReference Include="..\BlugraryDetectionSystemEntities\BlugraryDetectionSystemEntities.csproj" />
   </ItemGroup>
 

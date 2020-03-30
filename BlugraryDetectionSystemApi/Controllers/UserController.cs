@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlugraryDetectionSystemApi.MiscClasses;
+using BlugraryDetectionSystemBAL.Contracts;
+using BlugraryDetectionSystemBAL.Factory;
 using BlugraryDetectionSystemEntities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace BlugraryDetectionSystemApi.Controllers
 {
-    [Authorize]
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
     {
-        public UserController()
+        private IUserBAL userBAL;
+        private AppSettings appSettings;
+        public UserController(IOptionsSnapshot<AppSettings> appsettingsOptions)
         {
-
+           this.appSettings = appsettingsOptions.Value;
+            this.userBAL = BALFactory.GetUserBALObj(appSettings);
         }
         
         [HttpPost("adduser")]
-        public ContentResult AddUser(ReqAddUser reqAddUser)
+        public ContentResult AddUser([FromBody]ReqAddUser reqAddUser)
         {
             if(reqAddUser != null && ModelState.IsValid)
             {
-
+                userBAL.AddUser(reqAddUser);
+                return APIResponse.JsonSuccessResponse(Request, "Success");
             }
             else
             {
