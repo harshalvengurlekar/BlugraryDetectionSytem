@@ -29,6 +29,7 @@ namespace BlugraryDetectionSystemApi
             //this is for setting cors policy
             services.AddCors();
 
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

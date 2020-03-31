@@ -1,4 +1,5 @@
 ﻿using BlugraryDetectionSystemDAL.Contracts;
+using BlugraryDetectionSystemDAL.Factory;
 using BlugraryDetectionSystemEntities;
 using System;
 using System.Collections.Generic;
@@ -11,39 +12,31 @@ namespace BlugraryDetectionSystemDAL.Implementation
     public class UserDAL : IUserDAL
     {
 
-        private string connectionStr;
+        private DBHelper dBHelper;
         public UserDAL(string _conntectionStr)
         {
-            this.connectionStr = _conntectionStr;
+            this.dBHelper = DALFactory.GetDBHelper(_conntectionStr);
         }
 
 
         public DataSet AddUser(ReqAddUser reqAddUser)
         {
-            DataSet ds = new DataSet();
+            DataSet resultDs = null;
+            IDictionary<string, object> inputParams = new Dictionary<string, object>();
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionStr))
-                {
-                    SqlCommand sqlComm = new SqlCommand(StoredProcedures.AddUser, conn);
-                    sqlComm.Parameters.AddWithValue("@username", reqAddUser.UserName);
-                    sqlComm.Parameters.AddWithValue("@password", reqAddUser.Password);
-                    sqlComm.Parameters.AddWithValue("@name", reqAddUser.Name);
-                    sqlComm.Parameters.AddWithValue("@age", reqAddUser.Age);
-                    sqlComm.Parameters.AddWithValue("@roleid", reqAddUser.RoleId);
-                    sqlComm.CommandType = CommandType.StoredProcedure;
-
-                    SqlDataAdapter da = new SqlDataAdapter();
-                    da.SelectCommand = sqlComm;
-
-                    da.Fill(ds);
-                }
+                inputParams.Add("@username", reqAddUser.UserName);
+                inputParams.Add("@password", reqAddUser.Password);
+                inputParams.Add("@name", reqAddUser.Name);
+                inputParams.Add("@age", reqAddUser.Age);
+                inputParams.Add("@roleid", reqAddUser.RoleId);
+                inputParams.Add("@salt",reqAddUser.GetSalt());
+                resultDs = dBHelper.ExecuteStoredProcedure(StoredProcedures.AddUser, inputParams);
             }
             catch (Exception ex)
             {
-                ds = null;
             }
-            return ds;
+            return resultDs;
         }
     }
 }

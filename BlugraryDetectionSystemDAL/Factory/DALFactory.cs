@@ -14,5 +14,11 @@ namespace BlugraryDetectionSystemDAL.Factory
             return new UserDAL(connectionStr);
         }
 
+
+        public static DBHelper GetDBHelper(string connectionStr)
+        {
+            return new DBHelper(connectionStr);
+        }
+
     }
 }

@@ -1,9 +1,8 @@
 ﻿using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemBAL.Contracts;
 using BlugraryDetectionSystemBAL.Implementation;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using BlugraryDetectionSystemBAL.Implementation.Cryptography;
+
 
 namespace BlugraryDetectionSystemBAL.Factory
 {
@@ -13,6 +12,17 @@ namespace BlugraryDetectionSystemBAL.Factory
         public static IUserBAL GetUserBALObj(AppSettings appSettings)
         {
             return new UserBAL(appSettings);
+        }
+
+        
+        public static ICryptographyBAL GetRCF2898AlgorithmBALObj()
+        {
+            return new RCF2898AlgorithmBAL();
+        }
+
+        public static ICryptographyBAL GetSHA256BALObj()
+        {
+            return new RCF2898AlgorithmBAL();
         }
 
     }

@@ -21,23 +21,30 @@ namespace BlugraryDetectionSystemApi.Controllers
         private AppSettings appSettings;
         public UserController(IOptionsSnapshot<AppSettings> appsettingsOptions)
         {
-           this.appSettings = appsettingsOptions.Value;
+            this.appSettings = appsettingsOptions.Value;
             this.userBAL = BALFactory.GetUserBALObj(appSettings);
         }
-        
-        [HttpPost("adduser")]
+
+        [HttpPost("AddUser")]
         public ContentResult AddUser([FromBody]ReqAddUser reqAddUser)
         {
-            if(reqAddUser != null && ModelState.IsValid)
+            string response;
+            if (reqAddUser != null && ModelState.IsValid)
             {
-                userBAL.AddUser(reqAddUser);
-                return APIResponse.JsonSuccessResponse(Request, "Success");
+                response = userBAL.AddUser(reqAddUser);
+                if (!string.IsNullOrWhiteSpace(response))
+                    return APIResponse.JsonSuccessResponse(Request, response);
+                else
+                    return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
             }
             else
             {
-                return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',',ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
             }
         }
+
+
+       
 
     }
 }
