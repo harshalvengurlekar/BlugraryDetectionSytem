@@ -1,4 +1,5 @@
 ﻿using BlugraryDetectionSystemEntities;
+using BlugraryDetectionSystemEntities.RequestEntities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +10,8 @@ namespace BlugraryDetectionSystemDAL.Contracts
     public interface IUserDAL
     {
         DataSet AddUser(ReqAddUser reqAddUser);
+
+        DataSet GetUserPassword(ReqUserAuth reqUserAuth);
 
     }
 }

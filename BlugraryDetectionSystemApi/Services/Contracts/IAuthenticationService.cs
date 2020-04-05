@@ -1,4 +1,5 @@
 ﻿using BlugraryDetectionSystemEntities;
+using BlugraryDetectionSystemEntities.RequestEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace BlugraryDetectionSystemApi.Services.Contracts
 {
     public interface IUserAuthenticationService
     {
-        User Authenticate(string username, string password);
+        ResAuthToken Authenticate(ReqUserAuth reqUserAuth);
     }
 }

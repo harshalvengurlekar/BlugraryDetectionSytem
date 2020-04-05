@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemApi.Services.Contracts;
 using BlugraryDetectionSystemEntities;
+using BlugraryDetectionSystemEntities.RequestEntities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,19 +25,32 @@ namespace BlugraryDetectionSystemApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate()
+        [HttpPost("Authenticate")]
+        public ContentResult Authenticate([FromBody]ReqUserAuth reqUserAuth)
         {
-            User userParam = new User();
-            var user = userAuthenticationService.Authenticate(userParam.userName, userParam.password);
+            try
+            {
+                if (reqUserAuth != null && ModelState.IsValid)
+                {
+                    ResAuthToken authToken = userAuthenticationService.Authenticate(reqUserAuth);
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-
-            return Ok(user);
+                    if (authToken == null && !string.IsNullOrEmpty(authToken.Token) && !string.IsNullOrEmpty(authToken.UserName))
+                        return APIResponse.JsonUnauthorizedResponse(Request);
+                    else
+                        return APIResponse.JsonSuccessResponse(Request,authToken);
+                }
+                else
+                {
+                    return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                }
+            }
+            catch(Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+            }
         }
 
-       
+
 
     }
 }

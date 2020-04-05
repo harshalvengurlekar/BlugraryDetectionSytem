@@ -29,17 +29,26 @@ namespace BlugraryDetectionSystemApi.Controllers
         public ContentResult AddUser([FromBody]ReqAddUser reqAddUser)
         {
             string response;
-            if (reqAddUser != null && ModelState.IsValid)
+            try
             {
-                response = userBAL.AddUser(reqAddUser);
-                if (!string.IsNullOrWhiteSpace(response))
-                    return APIResponse.JsonSuccessResponse(Request, response);
+                if (reqAddUser != null && ModelState.IsValid)
+                {
+                    response = userBAL.AddUser(reqAddUser);
+                    if (!string.IsNullOrWhiteSpace(response))
+                        return APIResponse.JsonSuccessResponse(Request, response);
+                    else
+                        return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
+                }
                 else
-                    return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
+                {
+                    return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+
+
             }
         }
 

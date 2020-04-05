@@ -19,5 +19,8 @@ namespace BlugraryDetectionSystemApi.MiscClasses
 
         [JsonProperty("dbConnectionString")]
         public string dbConnectionString { get; set; }
+
+        [JsonProperty("aesPrivateKey")]
+        public string aesPrivateKey { get; set; }
     }
 }

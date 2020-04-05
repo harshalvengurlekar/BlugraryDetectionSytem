@@ -22,7 +22,12 @@ namespace BlugraryDetectionSystemBAL.Factory
 
         public static ICryptographyBAL GetSHA256BALObj()
         {
-            return new RCF2898AlgorithmBAL();
+            return new SHA256Algorithm();
+        }
+
+        public static ICryptographyBAL GetAESAlgorithmBALObj(AppSettings appSettings)
+        {
+            return new AESEncryption(appSettings);
         }
 
     }

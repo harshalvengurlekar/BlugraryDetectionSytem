@@ -38,6 +38,7 @@ namespace BlugraryDetectionSystemDAL
             catch (Exception ex)
             {
                 result = null;
+                throw;
             }
             return result;
         }

@@ -4,6 +4,7 @@ using BlugraryDetectionSystemBAL.Factory;
 using BlugraryDetectionSystemDAL.Contracts;
 using BlugraryDetectionSystemDAL.Factory;
 using BlugraryDetectionSystemEntities;
+using BlugraryDetectionSystemEntities.RequestEntities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,15 +15,48 @@ namespace BlugraryDetectionSystemBAL.Implementation
     public class UserBAL : IUserBAL
     {
         private AppSettings appSettings;
-        private ICryptographyBAL cryptographyBAL;
+        private ICryptographyBAL sha256cryptographyBAL;
+        private ICryptographyBAL aescryptographyBAL;
         private IUserDAL userDAL;
 
         public UserBAL(AppSettings _appSettings)
         {
             this.appSettings = _appSettings;
-            this.cryptographyBAL = BALFactory.GetRCF2898AlgorithmBALObj();
+            this.sha256cryptographyBAL = BALFactory.GetSHA256BALObj();
+            this.aescryptographyBAL = BALFactory.GetAESAlgorithmBALObj(this.appSettings);
             this.userDAL = DALFactory.GetUserDALObj(this.appSettings.appKeys.dbConnectionString);
         }
+
+        public bool AuthenticateUser(ReqUserAuth reqUserAuth)
+        {
+            bool isAuthenticated = false;
+            DataSet result;
+            try
+            {
+                reqUserAuth.UserName = aescryptographyBAL.DecryptData(reqUserAuth.UserName, this.appSettings.appKeys.aesPrivateKey);
+                reqUserAuth.Password = aescryptographyBAL.DecryptData(reqUserAuth.Password, this.appSettings.appKeys.aesPrivateKey);
+                result = this.GetUsenamePasswordDB(reqUserAuth);
+                if (result != null && result.Tables != null && result.Tables.Count == 1 && result.Tables[0].Rows != null && result.Tables[0].Rows.Count == 1)
+                {
+                    if (reqUserAuth.UserName.Equals(result.Tables[0].Rows[0].Field<string>("UserName")))
+                    {
+                        string dbPassword = sha256cryptographyBAL.DecryptData(result.Tables[0].Rows[0].Field<string>("Password"), result.Tables[0].Rows[0].Field<string>("Salt"));
+                        if (dbPassword.Equals(reqUserAuth.Password))
+                        {
+                            isAuthenticated = true;
+                        }
+                      
+                    }
+                 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return isAuthenticated;
+        }
+
 
         public string AddUser(ReqAddUser reqAddUser)
         {
@@ -31,7 +65,7 @@ namespace BlugraryDetectionSystemBAL.Implementation
             try
             {
                 result = this.AddUserDB(reqAddUser);
-                if(result != null && result.Tables != null && result.Tables.Count == 1 && result.Tables[0].Rows != null && result.Tables[0].Rows.Count == 1)
+                if (result != null && result.Tables != null && result.Tables.Count == 1 && result.Tables[0].Rows != null && result.Tables[0].Rows.Count == 1)
                 {
                     if (result.Tables[0].Rows[0].Field<string>("Action").ToLower() == "inserted" && result.Tables[0].Rows[0].Field<int>("Count") > 0)
                     {
@@ -47,9 +81,10 @@ namespace BlugraryDetectionSystemBAL.Implementation
                     respose = null;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 respose = null;
+                throw;
             }
             return respose;
         }
@@ -60,15 +95,32 @@ namespace BlugraryDetectionSystemBAL.Implementation
             string salt;
             try
             {
-                reqAddUser.Password = cryptographyBAL.EncryptData(reqAddUser.Password, out salt);
+                reqAddUser.Password = sha256cryptographyBAL.EncryptData(reqAddUser.Password, out salt);
                 reqAddUser.SetSalt(salt);
                 result = this.userDAL.AddUser(reqAddUser);
             }
             catch (Exception ex)
             {
                 result = null;
+                throw;
             }
             return result;
         }
+
+        private DataSet GetUsenamePasswordDB(ReqUserAuth reqUserAuth)
+        {
+            DataSet result;
+            try
+            {
+                result = this.userDAL.GetUserPassword(reqUserAuth);
+            }
+            catch (Exception ex)
+            {
+                result = null;
+                throw;
+            }
+            return result;
+        }
+
     }
 }

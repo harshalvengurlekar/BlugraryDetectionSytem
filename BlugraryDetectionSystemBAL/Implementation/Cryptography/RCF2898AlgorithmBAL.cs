@@ -35,6 +35,7 @@ namespace BlugraryDetectionSystemBAL.Implementation.Cryptography
             catch(Exception ex)
             {
                 decryptedData = null;
+                throw;
             }
             return decryptedData;
         }
@@ -65,6 +66,7 @@ namespace BlugraryDetectionSystemBAL.Implementation.Cryptography
             catch (Exception ex)
             {
                 salt = encryptedString = null;
+                throw;
             }
             return encryptedString;
         }
@@ -85,6 +87,7 @@ namespace BlugraryDetectionSystemBAL.Implementation.Cryptography
             catch (Exception ex)
             {
                 salt = "";
+                throw;
             }
             return salt;
         }
