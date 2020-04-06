@@ -73,7 +73,7 @@ namespace BlugraryDetectionSystemApi.MiscClasses
         public static ContentResult JsonInternelServerErrorResponse(HttpRequest request, Exception exception)
         {
             ResStandardResponse response = new ResStandardResponse();
-            response.Message = exception.Message + exception.InnerException != null ? (" , " + exception.InnerException.Message) : "";
+            response.Message = exception.Message;
             return new ContentResult()
             {
                 StatusCode = Convert.ToInt32(AppEnums.ResponseCodes.InternalServerError),

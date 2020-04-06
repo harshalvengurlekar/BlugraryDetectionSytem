@@ -14,6 +14,10 @@ namespace BlugraryDetectionSystemBAL.Factory
             return new UserBAL(appSettings);
         }
 
+        public static IResidentBAL GetResidentBALObj(AppSettings appSettings)
+        {
+            return new ResidentBAL(appSettings);
+        }
         
         public static ICryptographyBAL GetRCF2898AlgorithmBALObj()
         {

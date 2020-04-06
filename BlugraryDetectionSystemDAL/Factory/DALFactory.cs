@@ -20,5 +20,10 @@ namespace BlugraryDetectionSystemDAL.Factory
             return new DBHelper(connectionStr);
         }
 
+        public static IResidentsDAL GetResidentsDALObj(string connectionStr)
+        {
+            return new ResidentDAL(connectionStr);
+
+        }
     }
 }

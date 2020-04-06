@@ -34,7 +34,7 @@ namespace BlugraryDetectionSystemApi.Controllers
                 {
                     ResAuthToken authToken = userAuthenticationService.Authenticate(reqUserAuth);
 
-                    if (authToken == null && !string.IsNullOrEmpty(authToken.Token) && !string.IsNullOrEmpty(authToken.UserName))
+                    if (authToken == null || (string.IsNullOrEmpty(authToken.Token) && string.IsNullOrEmpty(authToken.UserName)))
                         return APIResponse.JsonUnauthorizedResponse(Request);
                     else
                         return APIResponse.JsonSuccessResponse(Request,authToken);

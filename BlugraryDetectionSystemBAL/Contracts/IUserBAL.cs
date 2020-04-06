@@ -11,6 +11,6 @@ namespace BlugraryDetectionSystemBAL.Contracts
         //adds user to the database
         string AddUser(ReqAddUser reqAddUser);
 
-        bool AuthenticateUser(ReqUserAuth reqUserAuth);
+        bool AuthenticateUser(ReqUserAuth reqUserAuth,ref string UserId);
     }
 }

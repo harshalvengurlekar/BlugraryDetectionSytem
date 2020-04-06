@@ -31,13 +31,14 @@ namespace BlugraryDetectionSystemApi.Services.Implementations
             ResAuthToken authToken = null;
             try
             {
-
-                bool isAuthenticate = userBAL.AuthenticateUser(reqUserAuth);
+                string userId = "";
+                bool isAuthenticate = userBAL.AuthenticateUser(reqUserAuth,ref userId);
                 // return null if user not found
                 if(isAuthenticate)
                 {
                     authToken = new ResAuthToken();
                     authToken.UserName = reqUserAuth.UserName;
+                    authToken.UserID = userId;
                     // authentication successful so generate jwt token
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var key = Encoding.ASCII.GetBytes(appSettings.appKeys.authenticationPrivateKey);

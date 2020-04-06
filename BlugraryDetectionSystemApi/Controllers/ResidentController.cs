@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemBAL.Contracts;
 using BlugraryDetectionSystemBAL.Factory;
-using BlugraryDetectionSystemEntities;
+using BlugraryDetectionSystemEntities.RequestEntities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -15,26 +16,27 @@ namespace BlugraryDetectionSystemApi.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class ResidentController : ControllerBase
     {
-        private IUserBAL userBAL;
+
+        private IResidentBAL residentBAL;
         private AppSettings appSettings;
-        public UserController(IOptionsSnapshot<AppSettings> appsettingsOptions)
+        public ResidentController(IOptionsSnapshot<AppSettings> appsettingsOptions)
         {
             this.appSettings = appsettingsOptions.Value;
-            this.userBAL = BALFactory.GetUserBALObj(appSettings);
+            this.residentBAL = BALFactory.GetResidentBALObj(appSettings);
         }
 
         [Authorize]
-        [HttpPost("AddUser")]
-        public ContentResult AddUser([FromBody]ReqAddUser reqAddUser)
+        [HttpPost("AddResident"),DisableRequestSizeLimit]
+        public ContentResult AddResident([FromBody]ReqAddResidents reqAddResidents)
         {
             string response;
             try
             {
-                if (reqAddUser != null && ModelState.IsValid)
+                if (reqAddResidents != null && ModelState.IsValid)
                 {
-                    response = userBAL.AddUser(reqAddUser);
+                    response = residentBAL.AddResident(reqAddResidents);
                     if (!string.IsNullOrWhiteSpace(response))
                         return APIResponse.JsonSuccessResponse(Request, response);
                     else
@@ -45,16 +47,13 @@ namespace BlugraryDetectionSystemApi.Controllers
                     return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return APIResponse.JsonInternelServerErrorResponse(Request, ex);
 
 
             }
         }
-
-
-       
 
     }
 }

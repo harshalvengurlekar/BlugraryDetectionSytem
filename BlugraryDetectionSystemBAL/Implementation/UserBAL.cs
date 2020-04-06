@@ -27,7 +27,7 @@ namespace BlugraryDetectionSystemBAL.Implementation
             this.userDAL = DALFactory.GetUserDALObj(this.appSettings.appKeys.dbConnectionString);
         }
 
-        public bool AuthenticateUser(ReqUserAuth reqUserAuth)
+        public bool AuthenticateUser(ReqUserAuth reqUserAuth,ref string userId)
         {
             bool isAuthenticated = false;
             DataSet result;
@@ -43,6 +43,7 @@ namespace BlugraryDetectionSystemBAL.Implementation
                         string dbPassword = sha256cryptographyBAL.DecryptData(result.Tables[0].Rows[0].Field<string>("Password"), result.Tables[0].Rows[0].Field<string>("Salt"));
                         if (dbPassword.Equals(reqUserAuth.Password))
                         {
+                            userId = result.Tables[0].Rows[0].Field<int>("UserID").ToString();
                             isAuthenticated = true;
                         }
                       

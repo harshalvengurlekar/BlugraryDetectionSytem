@@ -17,5 +17,7 @@ namespace BlugraryDetectionSystemEntities.RequestEntities
         [Required(ErrorMessage = "password is required")]
         public string Password { get; set; }
 
+
+
     }
 }
