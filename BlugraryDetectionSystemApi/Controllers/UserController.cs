@@ -6,6 +6,8 @@ using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemBAL.Contracts;
 using BlugraryDetectionSystemBAL.Factory;
 using BlugraryDetectionSystemEntities;
+using BlugraryDetectionSystemEntities.RequestEntities;
+using BlugraryDetectionSystemEntities.ResponseEntities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -45,7 +47,7 @@ namespace BlugraryDetectionSystemApi.Controllers
                     return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return APIResponse.JsonInternelServerErrorResponse(Request, ex);
 
@@ -53,8 +55,81 @@ namespace BlugraryDetectionSystemApi.Controllers
             }
         }
 
+        [Authorize(Roles = Role.Admin)]
+        [HttpPost("GetAllUsers")]
+        public ContentResult GetAllUsers()
+        {
+            List<ResAllUsers> users;
+            try
+            {
+                users = userBAL.GetAllUsers();
+                if (users != null && users.Count > 0)
+                    return APIResponse.JsonSuccessResponse(Request, users);
+                else
+                    return APIResponse.JsonNotFoundResponse(Request, "No users found");
 
-       
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
 
+
+            }
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpPost("DeleteUser")]
+        public ContentResult DeleteUser([FromBody] ReqDeleteUser reqDeleteUser)
+        {
+            string response;
+            try
+            {
+                response = userBAL.DeleteUser(reqDeleteUser);
+                if (!string.IsNullOrEmpty(response))
+                {
+                    if (response.Contains("doesn't"))
+                        return APIResponse.JsonNotFoundResponse(Request, response);
+                    else
+                        return APIResponse.JsonSuccessResponse(Request, response);
+                }
+                else
+                {
+                    return APIResponse.JsonNotFoundResponse(Request, response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("UpdateUser")]
+        public ContentResult UpdateUser([FromBody]ReqUpdateUser reqUpdateUser)
+        {
+            string response;
+            try
+            {
+                if (reqUpdateUser != null && ModelState.IsValid)
+                {
+                    response = userBAL.UpdateUser(reqUpdateUser);
+                    if (!string.IsNullOrWhiteSpace(response))
+                        return APIResponse.JsonSuccessResponse(Request, response);
+                    else
+                        return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
+                }
+                else
+                {
+                    return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                }
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+
+
+            }
+        }
     }
 }

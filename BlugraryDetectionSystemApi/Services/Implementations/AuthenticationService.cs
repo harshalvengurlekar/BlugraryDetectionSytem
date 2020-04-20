@@ -32,13 +32,15 @@ namespace BlugraryDetectionSystemApi.Services.Implementations
             try
             {
                 string userId = "";
-                bool isAuthenticate = userBAL.AuthenticateUser(reqUserAuth,ref userId);
+                string role = "";
+                bool isAuthenticate = userBAL.AuthenticateUser(reqUserAuth, ref userId,ref role);
                 // return null if user not found
-                if(isAuthenticate)
+                if (isAuthenticate)
                 {
                     authToken = new ResAuthToken();
                     authToken.UserName = reqUserAuth.UserName;
                     authToken.UserID = userId;
+                    authToken.Role = role;
                     // authentication successful so generate jwt token
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var key = Encoding.ASCII.GetBytes(appSettings.appKeys.authenticationPrivateKey);
@@ -46,7 +48,9 @@ namespace BlugraryDetectionSystemApi.Services.Implementations
                     {
                         Subject = new ClaimsIdentity(new Claim[]
                         {
-                    new Claim(ClaimTypes.Name, authToken.UserName.ToString())
+                                         new Claim(ClaimTypes.Name, authToken.UserName.ToString()),
+                                        new Claim(ClaimTypes.Role, authToken.Role)
+
                         }),
                         Expires = DateTime.UtcNow.AddDays(7),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -55,9 +59,9 @@ namespace BlugraryDetectionSystemApi.Services.Implementations
                     authToken.Token = tokenHandler.WriteToken(token);
                 }
 
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }

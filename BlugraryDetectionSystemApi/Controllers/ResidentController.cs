@@ -6,6 +6,7 @@ using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemBAL.Contracts;
 using BlugraryDetectionSystemBAL.Factory;
 using BlugraryDetectionSystemEntities.RequestEntities;
+using BlugraryDetectionSystemEntities.ResponseEntities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,35 @@ namespace BlugraryDetectionSystemApi.Controllers
                     response = residentBAL.AddResident(reqAddResidents);
                     if (!string.IsNullOrWhiteSpace(response))
                         return APIResponse.JsonSuccessResponse(Request, response);
+                    else
+                        return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
+                }
+                else
+                {
+                    return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                }
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+
+
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost("GetResident"), DisableRequestSizeLimit]
+        public ContentResult GetResident([FromBody]ReqGetUserResidents reqGetResidents)
+        {
+            List<ResGetUserResidents> residents;
+            try
+            {
+                if (reqGetResidents != null && ModelState.IsValid)
+                {
+                    residents = residentBAL.GetUserResidents(reqGetResidents);
+                    if (residents != null)
+                        return APIResponse.JsonSuccessResponse(Request, residents);
                     else
                         return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
                 }

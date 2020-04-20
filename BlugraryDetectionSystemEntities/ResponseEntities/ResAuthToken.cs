@@ -14,6 +14,8 @@ namespace BlugraryDetectionSystemEntities
         [JsonProperty("username")]
         public string UserName { get; set; }
 
+        [JsonProperty("role")]
+        public string Role { get; set; }
 
         [JsonProperty("userid")]
         public string UserID { get; set; }

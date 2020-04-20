@@ -10,6 +10,6 @@ namespace BlugraryDetectionSystemDAL.Contracts
     {
         DataSet AddResidents(ReqAddResidents reqAddResidents);
 
-        DataSet GetResidents(ReqGetResidents reqGetResidents);
+        DataSet GetUserResidents(ReqGetUserResidents reqGetResidents);
     }
 }

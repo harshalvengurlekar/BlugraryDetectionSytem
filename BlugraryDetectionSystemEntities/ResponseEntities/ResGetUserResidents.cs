@@ -6,7 +6,7 @@ using System.Text;
 namespace BlugraryDetectionSystemEntities.ResponseEntities
 {
     [Serializable]
-    public class ResGetResidents
+    public class ResGetUserResidents
     {
         [JsonProperty("residentName")]
         public string ResidentName { get; set; }

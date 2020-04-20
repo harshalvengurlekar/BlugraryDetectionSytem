@@ -44,10 +44,13 @@ namespace BlugraryDetectionSystemApi.MiscClasses
 
 
         //code to return resource not found
-        public static ContentResult JsonNotFoundResponse(HttpRequest request)
+        public static ContentResult JsonNotFoundResponse(HttpRequest request, string message)
         {
             ResStandardResponse response = new ResStandardResponse();
-            response.Message = AppConstants.APIResponseMessages.NotFoundResponseMsg;
+            if (string.IsNullOrEmpty(message))
+                response.Message = AppConstants.APIResponseMessages.NotFoundResponseMsg;
+            else
+                response.Message = message;
             return new ContentResult()
             {
                 StatusCode = Convert.ToInt32(AppEnums.ResponseCodes.NotFound),

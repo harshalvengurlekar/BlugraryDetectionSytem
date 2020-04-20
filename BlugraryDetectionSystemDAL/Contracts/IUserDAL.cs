@@ -13,5 +13,11 @@ namespace BlugraryDetectionSystemDAL.Contracts
 
         DataSet GetUserPassword(ReqUserAuth reqUserAuth);
 
+        DataSet GetAllUsers();
+
+        DataSet DeleteUser(ReqDeleteUser reqDeleteUser);
+
+        DataSet UpdateUser(ReqUpdateUser reqUpdateUser);
+
     }
 }

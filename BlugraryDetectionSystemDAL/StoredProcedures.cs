@@ -8,10 +8,19 @@ namespace BlugraryDetectionSystemDAL
     {
         public const string AddUser = "SP_AddUserDetails";
 
-        public const string GetUserPassword = "SP_GetUsernamePassword";
+        public const string AuthenticateUser = "SP_AuthenticateUser";
 
         public const string AddResidents = "SP_AddResidents";
 
-        public const string GetResidents = "SP_GetResidents";
+        public const string GetUserResidents = "SP_GetResidents";
+
+        public const string GetAllUsers = "SP_GetAllUsers";
+
+        public const string DeleteUser = "SP_DeleteUser";
+
+        public const string UpdateUser = "SP_GetAllUsers";
+
+        public const string GetAllResidents = "SP_GetAllResidents";
+
     }
 }
