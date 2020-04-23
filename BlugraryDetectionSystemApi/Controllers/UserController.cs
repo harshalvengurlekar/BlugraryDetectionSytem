@@ -14,7 +14,6 @@ using Microsoft.Extensions.Options;
 
 namespace BlugraryDetectionSystemApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -27,16 +26,94 @@ namespace BlugraryDetectionSystemApi.Controllers
             this.userBAL = BALFactory.GetUserBALObj(appSettings);
         }
 
-        [Authorize]
-        [HttpPost("AddUser")]
-        public ContentResult AddUser([FromBody]ReqAddUser reqAddUser)
+        [Authorize(Roles = Role.All)]
+        [HttpPost("GetLoggedInUserInfo")]
+        public ContentResult GetLoggedInUserInfo([FromBody]ReqGetLoggedUserInfo reqGetLoggedUserInfo)
+        {
+            ResGetLoggedInUserInfo resGetLoggedInUserInfo;
+            try
+            {
+                resGetLoggedInUserInfo = userBAL.GetLoggedInUserInfo(reqGetLoggedUserInfo);
+                if (resGetLoggedInUserInfo != null)
+                {
+                    return APIResponse.JsonSuccessResponse(Request, resGetLoggedInUserInfo);
+                }
+                else
+                {
+                    return APIResponse.JsonNotFoundResponse(Request, "User not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+            }
+
+        }
+
+
+        [Authorize(Roles = Role.All)]
+        [HttpPost("UpdateLoggedInUserInfo")]
+        public ContentResult UpdateLoggedInUserInfo([FromBody]ReqUpdateLoggedInUserInfo reqUpdateLoggedInUserInfo)
         {
             string response;
             try
             {
-                if (reqAddUser != null && ModelState.IsValid)
+                response = userBAL.UpdateLoggedInUserInfo(reqUpdateLoggedInUserInfo);
+                if (!string.IsNullOrEmpty(response))
                 {
-                    response = userBAL.AddUser(reqAddUser);
+                    if (response.Contains("No such user"))
+                        return APIResponse.JsonNotFoundResponse(Request, response);
+                    else
+                        return APIResponse.JsonSuccessResponse(Request, response);
+
+                }
+                else
+                {
+                    return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+            }
+
+        }
+
+
+        [HttpPost("UserNameAvailability")]
+        public ContentResult CheckUserNameAvailability([FromBody]ReqUserNameAvailability reqUserNameAvailability)
+        {
+            bool isavailable;
+            try
+            {
+                if (reqUserNameAvailability != null && ModelState.IsValid)
+                {
+                    isavailable = userBAL.UserNameAvailability(reqUserNameAvailability);
+                    return APIResponse.JsonSuccessResponse(Request, Convert.ToString(isavailable));
+
+                }
+                else
+                {
+                    return APIResponse.JsonBadRequestResponse(Request, "Invalid parameters passed: " + string.Join(',', ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage)));
+                }
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+
+
+            }
+        }
+
+        [HttpPost("RegisterUser")]
+        public ContentResult AddUser([FromBody]ReqRegisterUser reqRegisterUser)
+        {
+            string response;
+            try
+            {
+                if (reqRegisterUser != null && ModelState.IsValid)
+                {
+                    response = userBAL.AddUser(reqRegisterUser);
                     if (!string.IsNullOrWhiteSpace(response))
                         return APIResponse.JsonSuccessResponse(Request, response);
                     else

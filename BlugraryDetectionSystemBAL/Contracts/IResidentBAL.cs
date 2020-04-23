@@ -8,8 +8,10 @@ namespace BlugraryDetectionSystemBAL.Contracts
 {
     public interface IResidentBAL
     {
-        string AddResident(ReqAddResidents reqAddResident);
+        string AddResident(ReqAddResidents reqAddResident); 
 
         List<ResGetUserResidents> GetUserResidents(ReqGetUserResidents reqGetResidents);
+
+        List<ResGetAllResidents> GetAllResidents();
     }
 }

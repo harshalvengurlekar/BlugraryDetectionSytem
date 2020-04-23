@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 using System.Text;
 
-namespace BlugraryDetectionSystemEntities
+namespace BlugraryDetectionSystemEntities.RequestEntities
 {
     [Serializable]
-    public class ReqRegisterUser
+    public class ReqUpdateLoggedInUserInfo
     {
         [JsonProperty("userName")]
         [Required(ErrorMessage ="userName is required")]
@@ -30,20 +29,22 @@ namespace BlugraryDetectionSystemEntities
         [Required(ErrorMessage = "email is required")]
         public string Email { get; set; }
 
-        [JsonProperty("roleId")]
-        public int RoleId { get; set; } = 2;
+        [JsonProperty("userId")]
+        [Required(ErrorMessage = "userID is required")]
+        public string UserID { get; set; }
+
 
         private string Salt { get; set; }
 
-
-        public void SetSalt(string salt)
+        public void SetSlat(string Salt)
         {
-            Salt = salt;
+            this.Salt = Salt;
         }
 
         public string GetSalt()
         {
-            return Salt;
+            return this.Salt;
         }
+
     }
 }

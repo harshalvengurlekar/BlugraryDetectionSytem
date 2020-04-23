@@ -9,7 +9,7 @@ namespace BlugraryDetectionSystemDAL.Contracts
 {
     public interface IUserDAL
     {
-        DataSet AddUser(ReqAddUser reqAddUser);
+        DataSet RegisterUser(ReqRegisterUser reqRegisterUser);
 
         DataSet GetUserPassword(ReqUserAuth reqUserAuth);
 
@@ -18,6 +18,12 @@ namespace BlugraryDetectionSystemDAL.Contracts
         DataSet DeleteUser(ReqDeleteUser reqDeleteUser);
 
         DataSet UpdateUser(ReqUpdateUser reqUpdateUser);
+
+        DataSet UserNameAvailability(ReqUserNameAvailability reqUserNameAvailability);
+
+        DataSet GetLoggedInUserInfo(ReqGetLoggedUserInfo reqGetLoggedUserInfo);
+
+        DataSet UpdateLoggedInUserInfo(ReqUpdateLoggedInUserInfo reqUpdateLoggedInUserInfo);
 
     }
 }

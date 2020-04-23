@@ -20,7 +20,7 @@ namespace BlugraryDetectionSystemDAL.Implementation
         }
 
 
-       public DataSet GetUserResidents(ReqGetUserResidents reqGetResidents)
+        public DataSet GetUserResidents(ReqGetUserResidents reqGetResidents)
         {
             DataSet resultDs = null;
             IDictionary<string, object> inputParams = new Dictionary<string, object>();
@@ -28,7 +28,7 @@ namespace BlugraryDetectionSystemDAL.Implementation
             {
                 inputParams.Add("@userid", reqGetResidents.UserID);
 
-                resultDs = dBHelper.ExecuteStoredProcedure(StoredProcedures.GetAllResidents, inputParams);
+                resultDs = dBHelper.ExecuteStoredProcedure(StoredProcedures.GetUserResidents, inputParams);
             }
             catch (Exception ex)
             {
@@ -46,8 +46,23 @@ namespace BlugraryDetectionSystemDAL.Implementation
                 inputParams.Add("@residentname", reqAddResidents.ResidentName);
                 inputParams.Add("@residentimage", reqAddResidents.GetFilePath());
                 inputParams.Add("@userid", reqAddResidents.UserId);
-              
+
                 resultDs = dBHelper.ExecuteStoredProcedure(StoredProcedures.AddResidents, inputParams);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return resultDs;
+        }
+
+        public DataSet GetAllResidents()
+        {
+            DataSet resultDs = null;
+            IDictionary<string, object> inputParams = new Dictionary<string, object>();
+            try
+            {
+                resultDs = dBHelper.ExecuteStoredProcedure(StoredProcedures.GetAllResidents, inputParams);
             }
             catch (Exception ex)
             {

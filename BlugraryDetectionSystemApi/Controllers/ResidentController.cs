@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BlugraryDetectionSystemApi.MiscClasses;
 using BlugraryDetectionSystemBAL.Contracts;
 using BlugraryDetectionSystemBAL.Factory;
+using BlugraryDetectionSystemEntities;
 using BlugraryDetectionSystemEntities.RequestEntities;
 using BlugraryDetectionSystemEntities.ResponseEntities;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ namespace BlugraryDetectionSystemApi.Controllers
             this.residentBAL = BALFactory.GetResidentBALObj(appSettings);
         }
 
-        [Authorize]
+        [Authorize(Roles = Role.User)]
         [HttpPost("AddResident"),DisableRequestSizeLimit]
         public ContentResult AddResident([FromBody]ReqAddResidents reqAddResidents)
         {
@@ -57,7 +58,7 @@ namespace BlugraryDetectionSystemApi.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = Role.User)]
         [HttpPost("GetResident"), DisableRequestSizeLimit]
         public ContentResult GetResident([FromBody]ReqGetUserResidents reqGetResidents)
         {
@@ -85,5 +86,27 @@ namespace BlugraryDetectionSystemApi.Controllers
             }
         }
 
+        [Authorize(Roles = Role.Admin)]
+        [HttpPost("GetAllResident"), DisableRequestSizeLimit]
+        public ContentResult GetAllResident()
+        {
+            List<ResGetAllResidents> residents;
+            try
+            {
+
+                    residents = residentBAL.GetAllResidents();
+                    if (residents != null)
+                        return APIResponse.JsonSuccessResponse(Request, residents);
+                    else
+                        return APIResponse.JsonInternelServerErrorResponse(Request, new Exception("Something went wrong"));
+
+            }
+            catch (Exception ex)
+            {
+                return APIResponse.JsonInternelServerErrorResponse(Request, ex);
+
+
+            }
+        }
     }
 }

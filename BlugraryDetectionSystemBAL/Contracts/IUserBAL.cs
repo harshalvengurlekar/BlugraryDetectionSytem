@@ -10,11 +10,17 @@ namespace BlugraryDetectionSystemBAL.Contracts
     public interface IUserBAL
     {
         //adds user to the database
-        string AddUser(ReqAddUser reqAddUser);
+        string AddUser(ReqRegisterUser reqRegisterUser);
 
         bool AuthenticateUser(ReqUserAuth reqUserAuth, ref string userId, ref string role);
 
         List<ResAllUsers> GetAllUsers();
+
+        bool UserNameAvailability(ReqUserNameAvailability reqUserNameAvailability);
+
+        string UpdateLoggedInUserInfo(ReqUpdateLoggedInUserInfo reqUpdateLoggedInUserInfo);
+
+        ResGetLoggedInUserInfo GetLoggedInUserInfo(ReqGetLoggedUserInfo reqGetLoggedUserInfo);
 
         string DeleteUser(ReqDeleteUser reqDeleteUser);
 
