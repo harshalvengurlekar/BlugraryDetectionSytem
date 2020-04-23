@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlugraryDetectionSystemBAL\BlugraryDetectionSystemBAL.csproj" />
-    <ProjectReference Include="..\BlugraryDetectionSystemEntities\BlugraryDetectionSystemEntities.csproj" />
+    <ProjectReference Include="..\BlugraryDetectionSystemEntities\BlurgraryDetectionSystemEntities.csproj" />
   </ItemGroup>
 
 </Project>

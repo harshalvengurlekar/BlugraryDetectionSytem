@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlugraryDetectionSystemApi", "BlugraryDetectionSystemApi\BlugraryDetectionSystemApi.csproj", "{19656616-ACAC-4D6E-BCC6-29D8C7847C3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlugraryDetectionSystemEntities", "BlugraryDetectionSystemEntities\BlugraryDetectionSystemEntities.csproj", "{D087F71A-0DCC-44EE-B830-A9F65C549A39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlurgraryDetectionSystemEntities", "BlugraryDetectionSystemEntities\BlurgraryDetectionSystemEntities.csproj", "{D087F71A-0DCC-44EE-B830-A9F65C549A39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlugraryDetectionSystemDAL", "BlugraryDetectionSystemDAL\BlugraryDetectionSystemDAL.csproj", "{6E45DEF5-2F1D-4FC0-985E-B7DA6CB8F43A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlugraryDetectionSystemBAL", "BlugraryDetectionSystemBAL\BlugraryDetectionSystemBAL.csproj", "{2B740835-F1F0-4FAB-940C-53AF1910AE83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlugraryDetectionSystemBAL", "BlugraryDetectionSystemBAL\BlugraryDetectionSystemBAL.csproj", "{2B740835-F1F0-4FAB-940C-53AF1910AE83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

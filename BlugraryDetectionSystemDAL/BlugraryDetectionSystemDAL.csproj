@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlugraryDetectionSystemEntities\BlugraryDetectionSystemEntities.csproj" />
+    <ProjectReference Include="..\BlugraryDetectionSystemEntities\BlurgraryDetectionSystemEntities.csproj" />
   </ItemGroup>
 
 </Project>
